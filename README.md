@@ -1,92 +1,51 @@
-# DESCRIPTION #
+# collectd-cookbook
+[![Build Status](https://img.shields.io/travis/coderanger/chef-collectd.svg)](https://travis-ci.org/coderanger/chef-collectd)
+[![Gem Version](https://img.shields.io/gem/v/poise.svg)](https://rubygems.org/gems/poise)
+[![Cookbook Version](https://img.shields.io/cookbook/v/poise.svg)](https://supermarket.chef.io/cookbooks/poise)
+[![Coverage](https://img.shields.io/codecov/c/github/coderanger/chef-collectd.svg)](https://codecov.io/github/coderanger/chef-collectd)
+[![Gemnasium](https://img.shields.io/gemnasium/coderanger/chef-collectd.svg)](https://gemnasium.com/coderanger/chef-collectd)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-Configure and install the [collectd](http://collectd.org/) monitoring daemon.
+[Application cookbook][0] which installs and configures the
+[collectd monitoring daemon][1].
 
-# REQUIREMENTS #
+This cookbook provides a dead-simple installation and configuration of
+the collectd monitoring daemon. It provides two resources: the first
+is for managing the collectd system service, and the second is for
+configuring the daemon's plugins. Additionally, the
+[collectd_plugins cookbook][4] may be used to configure many of the
+common plugins that ship with the daemon.
 
-This cookbook has only been tested on Ubuntu 10.04.
+It is very important to note that distributions may ship different
+major versions of the package, but the following platforms are tested
+using the integration tests via [Test Kitchen][2].
+- Ubuntu ~> 10.04, 12.04, 14.04
+- CentOS ~> 5.8, 6.4, 7.1
+- RHEL ~> 5.8, 6.4, 7.1
 
-To use the `collectd::collectd_web` recipe you need the [apache2](https://github.com/opscode/cookbooks/tree/master/apache2) cookbook.
+## Basic Usage
+The [default recipe](recipes/default.rb) in this cookbook simply
+configures the monitoring daemon to run as a system service. The
+configuration for this service can be tuned using the
+[node attributes](attributes/default.rb). Additionally, a resource is
+provided to configure plugins for the daemon. After a plugin has been
+configured the daemon should be restarted.
 
-The [collectd_plugins](https://github.com/coderanger/chef-collectd_plugins) cookbook is not required, but provides many common plugin definitions for easy reuse.
-
-# ATTRIBUTES #
-
-* collectd.basedir - Base folder for collectd output data.
-* collectd.plugin_dir - Base folder to find plugins.
-* collectd.types_db - Array of files to read graph type information from.
-* collectd.interval - Time period in seconds to wait between data reads.
-
-* collectd.collectd_web.path - Location to install collectd_web to. Defaults to /srv/collectd_web.
-* collectd.collectd_web.hostname - Server name to use for collectd_web Apache site.
-
-# USAGE #
-
-Three main recipes are provided:
-
-* collectd - Install a standalone daemon.
-* collectd::client - Install collectd and configure it to send data to a server.
-* collectd::server - Install collectd and configure it to recieve data from clients.
-
-The client recipe will use the search index to automatically locate the server hosts, so no manual configuration is required.
-
-## Defines ##
-
-Several defines are provided to simplfy configuring plugins
-
-### collectd_plugin ###
-
-The `collectd_plugin` define configures and enables standard collect plugins. Example:
-
+### Enabling Syslog
+One of the simplest plugins to enable is the [collectd Syslog plugin][3]
+which receives log messages from the daemon and dispatches them to the
+to syslog. This allows the daemon's logs to easily integrate with
+existing UNIX utilities.
 ```ruby
-collectd_plugin "interface" do
-  options :interface=>"lo", :ignore_selected=>true
+collectd_plugin 'syslog' do
+  options do
+    log_level 'info'
+    notify_level 'OKAY'
+  end
 end
 ```
 
-The options hash is converted to collectd-style settings automatically. Any symbol key will be converted to camel-case. In the above example :ignore_selected will be output as the
-key "IgnoreSelected". If the key is already a string, this conversion is skipped. If the value is an array, it will be output as a separate line for each element.
-
-### collectd_python_plugin ###
-
-The `collectd_python_plugin` define configures and enables Python plugins using the collectd-python plugin. Example:
-
-```ruby
-collectd_python_plugin "redis" do
-  options :host=>servers, :verbose=>true
-end
-```
-
-Options are interpreted in the same way as with `collectd_plugin`. This define will not deploy the plugin script as well, so be sure to setup a cookbook_file resource
-or other mechanism to handle distribution. Example:
-
-```ruby
-cookbook_file File.join(node[:collectd][:plugin_dir], "redis.py") do
-  owner "root"
-  group "root"
-  mode "644"
-end
-```
-
-## Web frontend ##
-
-The `collectd::collectd_web` recipe will automatically deploy the [collectd_web](https://github.com/httpdss/collectd-web) frontend using Apache. The 
-[apache2](https://github.com/opscode/cookbooks/tree/master/apache2) cookbook is required for this and is *not* included automatically as this is an optional
-component, so be sure to configure the node with the correct recipes.
-
-# LICENSE & AUTHOR #
-
-Author:: Noah Kantrowitz (<noah@coderanger.net>)
-Copyright:: 2010, Atari, Inc
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+[0]: http://blog.vialstudios.com/the-environment-cookbook-pattern#theapplicationcookbook
+[1]: https://collectd.org
+[2]: https://github.com/test-kitchen/test-kitchen
+[3]: https://collectd.org/wiki/index.php/Plugin:SysLog

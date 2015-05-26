@@ -1,8 +1,16 @@
-name             "collectd"
-maintainer       "Noan Kantrowitz"
-maintainer_email "noah@coderanger.net"
-license          "Apache 2.0"
-description      "Install and configure the collectd monitoring daemon"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.0.0"
-supports         "ubuntu"
+name 'collectd'
+maintainer 'Noah Kantrowitz'
+maintainer_email 'noah@coderanger.net'
+license 'Apache 2.0'
+description 'Installs and configures the collectd monitoring daemon.'
+long_description 'Installs and configures the collectd monitoring daemon.'
+version '2.0.0'
+
+supports 'ubuntu', '>= 10.04'
+supports 'centos', '>= 5.8'
+supports 'redhat', '>= 5.8'
+
+depends 'httpd'
+depends 'poise', '~> 2.2'
+depends 'poise-service', '~> 1.0'
+depends 'yum-epel'

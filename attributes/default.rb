@@ -1,28 +1,23 @@
 #
-# Cookbook Name:: collectd
-# Attributes:: default
+# Cookbook: collectd
+# License: Apache 2.0
 #
-# Copyright 2010, Atari, Inc
+# Copyright 2010, Atari, Inc.
+# Copyright 2015, Bloomberg Finance L.P.
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+default['collectd']['service_name'] = 'collectd'
+default['collectd']['service_user'] = 'collectd'
+default['collectd']['service_group'] = 'collectd'
 
-default[:collectd][:base_dir] = "/var/lib/collectd"
-default[:collectd][:plugin_dir] = "/usr/lib/collectd"
-default[:collectd][:types_db] = ["/usr/share/collectd/types.db"]
-default[:collectd][:interval] = 10
-default[:collectd][:read_threads] = 5
-default[:collectd][:pkg_name] = "collectd-core"
+if node['platform'] == 'ubuntu'
+  default['collectd']['service']['package_name'] = 'collectd-core'
+else
+  default['collectd']['service']['package_name'] = 'collectd'
+end
 
-default[:collectd][:collectd_web][:path] = "/srv/collectd_web"
-default[:collectd][:collectd_web][:hostname] = "collectd"
+default['collectd']['service']['configuration']['plugin_dir'] = '/usr/lib64/collectd'
+default['collectd']['service']['configuration']['types_d_b'] = '/usr/share/collectd/types.db'
+
+default['collectd']['web']['options'] = { 'data_dir' => '/etc/collectd.d/collectd-web' }
+default['collectd']['client']['options']['servers'] = []
+default['collectd']['server']['options']['listen'] = '0.0.0.0'
