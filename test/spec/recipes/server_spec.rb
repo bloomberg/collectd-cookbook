@@ -6,7 +6,7 @@ describe_recipe 'collectd::server' do
 
   it do
     expect(chef_run).to create_collectd_plugin('network')
-                         .with(options: {'listen' => '0.0.0.0'})
+    .with(options: {'listen' => '0.0.0.0'})
   end
 
   context 'with default attributes' do

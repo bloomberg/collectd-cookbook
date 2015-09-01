@@ -1,3 +1,4 @@
+require 'chefspec'
 require 'chefspec/berkshelf'
 require 'poise_boiler/spec_helper'
 require_relative '../../../libraries/collectd_plugin'
@@ -18,7 +19,7 @@ describe CollectdCookbook::Resource::CollectdPlugin do
 # Do not edit; All changes will be overwritten!
 LoadPlugin "syslog"
 <Plugin "syslog">
-        LogLevel "info"
+	LogLevel "info"
 </Plugin>
 EOH
   end

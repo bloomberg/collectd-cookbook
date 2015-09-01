@@ -12,7 +12,7 @@ module CollectdCookbook
   module Resource
     # A resource for managing collectd plugins.
     # @since 2.0.0
-    class Chef::Resource::CollectdPlugin < Chef::Resource
+    class CollectdPlugin < Chef::Resource
       include Poise(fused: true)
       provides(:collectd_plugin)
       include CollectdCookbook::Helpers

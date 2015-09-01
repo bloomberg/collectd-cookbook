@@ -49,6 +49,14 @@ module CollectdCookbook
       # @see {https://collectd.org/documentation/manpages/collectd.conf.5.shtml#global_options}
       # @return [Hash, Mash]
       attribute(:configuration, option_collector: true)
+
+      # @!attribute package_name
+      # @return [String]
+      attribute(:package_name, kind_of: String, default: 'collectd')
+
+      # @!attribute package_version
+      # @return [String]
+      attribute(:package_version, kind_of: String)
     end
   end
 
