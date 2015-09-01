@@ -26,7 +26,13 @@ CyclomaticComplexity:
 Style/FileName:
   Enabled: false
 
+Style/FirstParameterIndentation:
+  Enabled: false
+
 Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
   Enabled: false
 
 Metrics/AbcSize:
@@ -35,9 +41,8 @@ Metrics/AbcSize:
 AllCops:
   Exclude:
     - 'Guardfile'
-    - 'test/**/*_test.rb'
-    - 'test/**/*_spec.rb'
-    - 'bin/**'
+    - 'test/**/*.rb'
+    - 'bin/*'
 
 Style/GuardClause:
   Enabled: false

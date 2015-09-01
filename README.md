@@ -49,3 +49,4 @@ end
 [1]: https://collectd.org
 [2]: https://github.com/test-kitchen/test-kitchen
 [3]: https://collectd.org/wiki/index.php/Plugin:SysLog
+[4]: https://github.com/coderanger/chef-collectd_plugins

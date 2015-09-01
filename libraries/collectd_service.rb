@@ -90,7 +90,7 @@ module CollectdCookbook
               'base_dir' => new_resource.directory,
               'hostname' => node['hostname']
             )),
-            %Q(Include "#{new_resource.config_directory}"\n)
+            %(Include "#{new_resource.config_directory}"\n)
           ]
 
           file new_resource.config_filename do

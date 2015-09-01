@@ -13,29 +13,29 @@ module CollectdCookbook
     # @param [String]
     # @return [String]
     def snake_to_camel(s)
-      s.to_s.split('_').map(&:capitalize).join("")
+      s.to_s.split('_').map(&:capitalize).join('')
     end
 
     # Builds a configuration file from {directives} and applys {indent}.
     # @param [Hash] directives
     # @param [Integer] indent
     # @return [String]
-    def build_configuration(directives, indent=0)
+    def build_configuration(directives, indent = 0)
       tabs = ("\t" * indent)
       directives.map do |key, value|
         next if value.nil?
         key = snake_to_camel(key)
         if value.is_a?(Array)
-          %Q(#{tabs}#{key} "#{value.uniq.join('", "')}")
-        elsif value.kind_of?(Hash)
+          %(#{tabs}#{key} "#{value.uniq.join('", "')}")
+        elsif value.kind_of?(Hash) # rubocop:disable Style/ClassCheck
           value.map do |n, v|
             n = snake_to_camel(n)
-            %Q(#{tabs}<#{key} "#{n}">\n#{build_configuration(v, indent.next)}\n#{tabs}</#{key}>)
+            %(#{tabs}<#{key} "#{n}">\n#{build_configuration(v, indent.next)}\n#{tabs}</#{key}>)
           end
         elsif value.is_a?(String)
-          %Q(#{tabs}#{key} "#{value.to_s}")
+          %(#{tabs}#{key} "#{value}")
         else
-          %Q(#{tabs}#{key} #{value.to_s})
+          %(#{tabs}#{key} #{value})
         end
       end.flatten.join("\n")
     end
