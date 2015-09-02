@@ -114,6 +114,9 @@ module CollectdCookbook
       # @param [PoiseService::Service] service
       def service_options(service)
         service.command("/usr/sbin/collectd -C #{new_resource.config_filename} -f")
+        service.directory(new_resource.directory)
+        service.user(new_resource.user)
+        service.environment(new_resource.environment)
         service.restart_on_update(true)
       end
     end
