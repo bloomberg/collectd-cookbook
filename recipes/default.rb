@@ -9,6 +9,7 @@ include_recipe 'yum-epel::default' if platform_family?('redhat')
 
 poise_service_user node['collectd']['service_user'] do
   group node['collectd']['service_group']
+  not_if { node['collectd']['service_user'] == node['root_user'] }
 end
 
 collectd_service node['collectd']['service_name'] do |r|
