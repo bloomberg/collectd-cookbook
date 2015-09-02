@@ -28,10 +28,12 @@ module CollectdCookbook
         if value.is_a?(Array)
           %(#{tabs}#{key} "#{value.uniq.join('", "')}")
         elsif value.kind_of?(Hash) # rubocop:disable Style/ClassCheck
-          value.map do |n, v|
-            n = snake_to_camel(n)
-            %(#{tabs}<#{key} "#{n}">\n#{build_configuration(v, indent.next)}\n#{tabs}</#{key}>)
-          end
+          id = value.delete('id')
+          next if id.nil?
+          [%(#{tabs}<#{key} "#{id}">),
+            build_configuration(value, indent.next),
+            %(#{tabs}</#{key}>)
+          ].join("\n")
         elsif value.is_a?(String)
           %(#{tabs}#{key} "#{value}")
         else

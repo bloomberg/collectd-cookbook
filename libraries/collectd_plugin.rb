@@ -13,9 +13,9 @@ module CollectdCookbook
     # A resource for managing collectd plugins.
     # @since 2.0.0
     class CollectdPlugin < Chef::Resource
-      include Poise(fused: true)
+      include Poise
       provides(:collectd_plugin)
-      include CollectdCookbook::Helpers
+      actions(:create, :delete)
 
       # @!attribute plugin_name
       # Name of the collectd plugin to install and configure.
@@ -44,8 +44,17 @@ module CollectdCookbook
       # Set of key-value options to configure the plugin.
       # @return [Hash, Mash]
       attribute(:options, option_collector: true)
+    end
+  end
 
-      action(:create) do
+  module Provider
+    # @since 2.0.0
+    class CollectdPlugin < Chef::Provider
+      include Poise
+      provides(:collectd_plugin)
+      include CollectdCookbook::Helpers
+
+      def action_create
         notifying_block do
           directory new_resource.directory do
             recursive true
@@ -57,7 +66,7 @@ module CollectdCookbook
             '# Do not edit; All changes will be overwritten!',
             %(LoadPlugin "#{new_resource.plugin_name}"),
             %(<Plugin "#{new_resource.plugin_name}">),
-            new_resource.build_configuration(new_resource.options, 1),
+            self.build_configuration(new_resource.options, 1),
             "</Plugin>\n"
           ]
 
@@ -68,7 +77,7 @@ module CollectdCookbook
         end
       end
 
-      action(:delete) do
+      def action_delete
         notifying_block do
           file ::File.join(new_resource.directory, "#{new_resource.plugin_name}.conf") do
             action :delete
