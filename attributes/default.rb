@@ -17,7 +17,3 @@ end
 
 default['collectd']['service']['configuration']['plugin_dir'] = '/usr/lib64/collectd'
 default['collectd']['service']['configuration']['types_d_b'] = '/usr/share/collectd/types.db'
-
-default['collectd']['web']['options'] = { 'data_dir' => '/etc/collectd.d/collectd-web' }
-default['collectd']['client']['options']['servers'] = []
-default['collectd']['server']['options']['listen'] = '0.0.0.0'
