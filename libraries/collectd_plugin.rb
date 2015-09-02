@@ -66,7 +66,7 @@ module CollectdCookbook
             '# Do not edit; All changes will be overwritten!',
             %(LoadPlugin "#{new_resource.plugin_name}"),
             %(<Plugin "#{new_resource.plugin_name}">),
-            self.build_configuration(new_resource.options, 1),
+            build_configuration(new_resource.options, 1),
             "</Plugin>\n"
           ]
 

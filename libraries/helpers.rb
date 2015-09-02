@@ -31,8 +31,8 @@ module CollectdCookbook
           id = value.delete('id')
           next if id.nil?
           [%(#{tabs}<#{key} "#{id}">),
-            build_configuration(value, indent.next),
-            %(#{tabs}</#{key}>)
+           build_configuration(value, indent.next),
+           %(#{tabs}</#{key}>)
           ].join("\n")
         elsif value.is_a?(String)
           %(#{tabs}#{key} "#{value}")
