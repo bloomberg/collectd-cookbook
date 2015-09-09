@@ -63,7 +63,7 @@ module CollectdCookbook
             configuration(
               'load_plugin' => new_resource.plugin_name,
               'plugin' => {
-                'id' => new_resource.plugin_name,
+                'id' => new_resource.plugin_name
               }.merge(new_resource.options)
             )
           end
