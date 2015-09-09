@@ -55,11 +55,12 @@ module CollectdCookbook
           if value.is_a?(Array)
             %(#{tabs}#{key} "#{value.uniq.join('", "')}")
           elsif value.kind_of?(Hash) # rubocop:disable Style/ClassCheck
-            id = value.delete('id')
+            id = value['id']
             next if id.nil?
+            config_hash = value.reject { |k, _| k == 'id' }
             [%(#{tabs}<#{key} "#{id}">),
-              write_elements(value, indent.next),
-              %(#{tabs}</#{key}>)
+             write_elements(config_hash, indent.next),
+             %(#{tabs}</#{key}>)
             ].join("\n")
           elsif value.is_a?(String)
             %(#{tabs}#{key} "#{value}")

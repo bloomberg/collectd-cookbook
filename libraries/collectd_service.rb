@@ -61,7 +61,7 @@ module CollectdCookbook
       # @!attribute package_source
       # @return [String]
       attribute(:package_source, kind_of: String)
-	      
+
       # @!attribute command
       # @return [String]
       attribute(:command, kind_of: String, default: '/usr/sbin/collectd -C /etc/collectd.conf -f')
