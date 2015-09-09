@@ -10,7 +10,6 @@ supports 'ubuntu', '>= 10.04'
 supports 'centos', '>= 5.8'
 supports 'redhat', '>= 5.8'
 
-depends 'httpd'
 depends 'poise', '~> 2.2'
 depends 'poise-service', '~> 1.0'
 depends 'yum-epel'

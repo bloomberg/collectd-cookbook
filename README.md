@@ -45,8 +45,22 @@ collectd_plugin 'syslog' do
 end
 ```
 
+## Advanced Usage
+In order to enable the full functionality of some of the more
+intrusive collectd plugins the daemon will need to run as the root
+user. Since this is obviously a security risk it is not the default.
+To achieve this behavior you're required to write a
+[wrapper cookbook][5] which overrides the service user with the proper
+root user.
+```ruby
+node.default['collectd']['service_user'] = node['root_user']
+node.default['collectd']['service_group'] = node['root_group']
+include_recipe 'collectd::default'
+```
+
 [0]: http://blog.vialstudios.com/the-environment-cookbook-pattern#theapplicationcookbook
 [1]: https://collectd.org
 [2]: https://github.com/test-kitchen/test-kitchen
 [3]: https://collectd.org/wiki/index.php/Plugin:SysLog
 [4]: https://github.com/coderanger/chef-collectd_plugins
+[5]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thewrappercookbook
