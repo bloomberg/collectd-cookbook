@@ -61,6 +61,10 @@ module CollectdCookbook
       # @!attribute package_source
       # @return [String]
       attribute(:package_source, kind_of: String)
+	      
+      # @!attribute command
+      # @return [String]
+      attribute(:command, kind_of: String, default: '/usr/sbin/collectd -C /etc/collectd.conf -f')
     end
   end
 
@@ -122,7 +126,7 @@ module CollectdCookbook
       # Sets the tuning options for service management with {PoiseService::ServiceMixin}.
       # @param [PoiseService::Service] service
       def service_options(service)
-        service.command("/usr/sbin/collectd -C #{new_resource.config_filename} -f")
+        service.command(new_resource.command)
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment('PATH' => '/usr/local/bin:/usr/bin:/bin')
