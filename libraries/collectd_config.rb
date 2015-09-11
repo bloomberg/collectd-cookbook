@@ -49,17 +49,16 @@ module CollectdCookbook
       # @return [String]
       def write_elements(directives, indent = 0)
         tabs = ("\t" * indent)
-        directives.map do |key, value|
+        directives.dup.map do |key, value|
           next if value.nil?
           key = snake_to_camel(key)
           if value.is_a?(Array)
             %(#{tabs}#{key} "#{value.uniq.join('", "')}")
           elsif value.kind_of?(Hash) # rubocop:disable Style/ClassCheck
-            id = value['id']
+            id = value.delete('id')
             next if id.nil?
-            config_hash = value.reject { |k, _| k == 'id' }
             [%(#{tabs}<#{key} "#{id}">),
-             write_elements(config_hash, indent.next),
+             write_elements(value, indent.next),
              %(#{tabs}</#{key}>)
             ].join("\n")
           elsif value.is_a?(String)

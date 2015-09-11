@@ -64,7 +64,7 @@ module CollectdCookbook
 
       # @!attribute command
       # @return [String]
-      attribute(:command, kind_of: String, default: '/usr/sbin/collectd -C /etc/collectd.conf -f')
+      attribute(:command, kind_of: String, default: lazy { "/usr/sbin/collectd -C #{config_filename} -f" })
     end
   end
 
