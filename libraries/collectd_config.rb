@@ -49,7 +49,7 @@ module CollectdCookbook
       # @return [String]
       def write_elements(directives, indent = 0)
         tabs = ("\t" * indent)
-        directives.map do |key, value|
+        directives.dup.map do |key, value|
           next if value.nil?
           key = snake_to_camel(key)
           if value.is_a?(Array)
@@ -58,8 +58,8 @@ module CollectdCookbook
             id = value.delete('id')
             next if id.nil?
             [%(#{tabs}<#{key} "#{id}">),
-              write_elements(value, indent.next),
-              %(#{tabs}</#{key}>)
+             write_elements(value, indent.next),
+             %(#{tabs}</#{key}>)
             ].join("\n")
           elsif value.is_a?(String)
             %(#{tabs}#{key} "#{value}")
