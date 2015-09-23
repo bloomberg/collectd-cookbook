@@ -62,9 +62,14 @@ module CollectdCookbook
       # @return [String]
       attribute(:package_source, kind_of: String)
 
-      # @!attribute command
+      # @!attribute environment
       # @return [String]
-      attribute(:command, kind_of: String, default: lazy { "/usr/sbin/collectd -C #{config_filename} -f" })
+      attribute(:environment, kind_of: Hash, default: lazy { default_environment })
+
+      # @return [Hash]
+      def default_environment
+        { 'PATH' => '/usr/bin:/usr/sbin:/bin:/sbin' }
+      end
     end
   end
 
@@ -126,10 +131,10 @@ module CollectdCookbook
       # Sets the tuning options for service management with {PoiseService::ServiceMixin}.
       # @param [PoiseService::Service] service
       def service_options(service)
-        service.command(new_resource.command)
+        service.command("collectd -C #{new_resource.config_filename} -f")
         service.directory(new_resource.directory)
         service.user(new_resource.user)
-        service.environment('PATH' => '/usr/local/bin:/usr/bin:/bin')
+        service.environment(new_resource.environment)
         service.restart_on_update(true)
       end
     end
