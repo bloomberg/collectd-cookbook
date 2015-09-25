@@ -71,6 +71,8 @@ module CollectdCookbook
 
       action(:create) do
         notifying_block do
+          directory ::File.dirname(new_resource.path)
+
           file new_resource.path do
             content new_resource.content
             owner new_resource.owner
