@@ -85,16 +85,18 @@ module CollectdCookbook
         notifying_block do
           # TODO: (jbellone) Fix the package resource for AIX so that
           # it is able to install from a URL.
-          package_source = if new_resource.package_source
-                             basename = ::File.basename(new_resource.package_source)
-                             remote_file ::File.join(Chef::Config[:file_cache_path], basename) do
-                               source new_resource.package_source
-                             end.path
-                           end
+          package_path = if new_resource.package_source
+                           url = new_resource.package_source % { version: new_resource.package_version }
+                           basename = ::File.basename(url)
+                           remote_file ::File.join(Chef::Config[:file_cache_path], basename) do
+                             source url
+                           end.path
+                         end
 
           package new_resource.package_name do
+            provider Chef::Provider::Package::Dpkg if platform?('ubuntu')
             version new_resource.package_version
-            source package_source
+            source package_path
             action :upgrade
           end
 
