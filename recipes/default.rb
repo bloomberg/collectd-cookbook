@@ -12,8 +12,8 @@ poise_service_user node['collectd']['service_user'] do
   not_if { node['collectd']['service_user'] == 'root' }
 end
 
-collectd_service node['collectd']['service_name'] do
+collectd_service node['collectd']['service_name'] do |r|
   user node['collectd']['service_user']
   group node['collectd']['service_group']
-  node['collectd']['service'].each_pair { |k, v| send(k, v) }
+  node['collectd']['service'].each_pair { |k, v| r.send(k, v) }
 end
