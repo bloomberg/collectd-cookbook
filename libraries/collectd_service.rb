@@ -16,6 +16,8 @@ module CollectdCookbook
       provides(:collectd_service)
       include PoiseService::ServiceMixin
 
+      attribute(:command, kind_of: String, default: lazy { default_command })
+
       # @!attribute user
       # User to run the collectd daemon as. Defaults to 'collectd.'
       # @return [String]
@@ -64,11 +66,11 @@ module CollectdCookbook
 
       # @!attribute environment
       # @return [String]
-      attribute(:environment, kind_of: Hash, default: lazy { default_environment })
+      attribute(:environment, kind_of: Hash, default: { 'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin' })
 
-      # @return [Hash]
-      def default_environment
-        { 'PATH' => '/usr/bin:/usr/sbin:/bin:/sbin' }
+      # @return [String]
+      def default_command
+        "/usr/sbin/collectd -C #{config_filename} -f"
       end
     end
   end
@@ -133,7 +135,7 @@ module CollectdCookbook
       # Sets the tuning options for service management with {PoiseService::ServiceMixin}.
       # @param [PoiseService::Service] service
       def service_options(service)
-        service.command("collectd -C #{new_resource.config_filename} -f")
+        service.command(new_resource.command)
         service.environment(new_resource.environment)
         service.directory(new_resource.directory)
         service.user(new_resource.user)
