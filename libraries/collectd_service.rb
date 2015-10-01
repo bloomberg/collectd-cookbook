@@ -99,7 +99,6 @@ module CollectdCookbook
             provider Chef::Provider::Package::Dpkg if platform?('ubuntu')
             version new_resource.package_version
             source package_path
-            action :upgrade
           end
 
           [new_resource.directory, new_resource.config_directory].each do |dirname|
