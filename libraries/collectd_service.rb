@@ -68,10 +68,20 @@ module CollectdCookbook
       # @return [String]
       attribute(:environment, kind_of: Hash, default: { 'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin' })
 
+      # @!attribute solaris_admin_file
+      # @return [String]
+      attribute(:solaris_admin_file, kind_of: String, default: lazy { default_solaris_admin_file })
+
       # @return [String]
       def default_command
         "/usr/sbin/collectd -C #{config_filename} -f"
       end
+
+      # @return [String]
+      def default_solaris_admin_file
+        ::File.join(Chef::Config[:file_cache_path],"default")
+      end
+
     end
   end
 
@@ -95,12 +105,28 @@ module CollectdCookbook
                            end.path
                          end
 
+          #create admin file for solaris package
+          ruby_block 'create solaris admin file' do
+            block do
+              if platform?('solaris2')
+                text = ::File.read('/var/sadm/install/admin/default')
+                ::File.write(new_resource.solaris_admin_file, text.gsub(/ask/,'nocheck'))
+              end
+            end
+          end
+
           package new_resource.package_name do
             provider Chef::Provider::Package::Dpkg if platform?('ubuntu')
-            provider Chef::Provider::Package::Solaris if platform?('solaris2')
+            #solaris provider only supports install action and needs admin file
+            if platform?('solaris2')
+              provider Chef::Provider::Package::Solaris
+              options "-a #{new_resource.solaris_admin_file}"
+              action :install
+            else
+              action :upgrade
+            end
             version new_resource.package_version
             source package_path
-            action :upgrade
           end
 
           [new_resource.directory, new_resource.config_directory].each do |dirname|
