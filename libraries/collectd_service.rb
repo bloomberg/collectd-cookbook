@@ -97,7 +97,6 @@ module CollectdCookbook
 
           package new_resource.package_name do
             provider Chef::Provider::Package::Dpkg if platform?('ubuntu')
-            # solaris provider only supports install action
             if platform?('solaris2')
               provider Chef::Provider::Package::Solaris
               action :install

@@ -4,7 +4,7 @@ maintainer_email 'noah@coderanger.net'
 license 'Apache 2.0'
 description 'Installs and configures the collectd monitoring daemon.'
 long_description 'Installs and configures the collectd monitoring daemon.'
-version '2.0.6'
+version '2.1.0'
 
 supports 'ubuntu', '>= 10.04'
 supports 'centos', '>= 5.8'
