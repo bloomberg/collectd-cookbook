@@ -97,14 +97,11 @@ module CollectdCookbook
 
           package new_resource.package_name do
             provider Chef::Provider::Package::Dpkg if platform?('ubuntu')
-            if platform?('solaris2')
-              provider Chef::Provider::Package::Solaris
-              action :install
-            else
-              action :upgrade
-            end
+            provider Chef::Provider::Package::Solaris if platform?('solaris2')
+            action :upgrade
             version new_resource.package_version
             source package_path
+            notifies :restart, new_resource, :delayed
           end
 
           [new_resource.directory, new_resource.config_directory].each do |dirname|
@@ -123,6 +120,7 @@ module CollectdCookbook
               'base_dir' => new_resource.directory,
               'include'  => "#{new_resource.config_directory}/*.conf"
             )
+            notifies :restart, new_resource, :delayed
           end
         end
         super
