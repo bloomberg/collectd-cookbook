@@ -53,7 +53,7 @@ module CollectdCookbook
           next if value.nil?
           key = snake_to_camel(key)
           if value.is_a?(Array)
-            %(#{tabs}#{key} "#{value.uniq.join('", "')}")
+            value.each{ |val| %(#{tabs}#{key} "#{val}") }
           elsif value.kind_of?(Hash) # rubocop:disable Style/ClassCheck
             id = value.delete('id')
             next if id.nil?
