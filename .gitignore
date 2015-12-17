@@ -53,3 +53,5 @@ vendor
 .vagrant
 Berksfile.lock
 coverage/
+Policyfile.lock.json
+nodes/
