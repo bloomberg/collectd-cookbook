@@ -1,9 +1,7 @@
 # collectd-cookbook
-[![Build Status](https://img.shields.io/travis/coderanger/chef-collectd.svg)](https://travis-ci.org/coderanger/chef-collectd)
-[![Gem Version](https://img.shields.io/gem/v/poise.svg)](https://rubygems.org/gems/poise)
-[![Cookbook Version](https://img.shields.io/cookbook/v/poise.svg)](https://supermarket.chef.io/cookbooks/poise)
-[![Coverage](https://img.shields.io/codecov/c/github/coderanger/chef-collectd.svg)](https://codecov.io/github/coderanger/chef-collectd)
-[![Gemnasium](https://img.shields.io/gemnasium/coderanger/chef-collectd.svg)](https://gemnasium.com/coderanger/chef-collectd)
+[![Build Status](https://img.shields.io/travis/bloomberg/collectd-cookbook.svg)](https://travis-ci.org/bloomberg/collectd-cookbook)
+[![Code Quality](https://img.shields.io/codeclimate/github/bloomberg/collectd-cookbook.svg)](https://codeclimate.com/github/bloomberg/collectd-cookbook)
+[![Cookbook Version](https://img.shields.io/cookbook/v/collectd.svg)](https://supermarket.chef.io/cookbooks/collectd)
 [![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 [Application cookbook][0] which installs and configures the
@@ -62,5 +60,5 @@ include_recipe 'collectd::default'
 [1]: https://collectd.org
 [2]: https://github.com/test-kitchen/test-kitchen
 [3]: https://collectd.org/wiki/index.php/Plugin:SysLog
-[4]: https://github.com/coderanger/chef-collectd_plugins
+[4]: https://github.com/bloomberg/collectd_plugins-cookbook
 [5]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thewrappercookbook
