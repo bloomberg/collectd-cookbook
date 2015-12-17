@@ -5,6 +5,8 @@ license 'Apache 2.0'
 description 'Installs and configures the collectd monitoring daemon.'
 long_description 'Installs and configures the collectd monitoring daemon.'
 version '2.1.2'
+source_url 'https://github.com/bloomberg/collectd-cookbook'
+issues_url 'https://github.com/bloomberg/collectd-cookbook/issues'
 
 supports 'ubuntu', '>= 10.04'
 supports 'centos', '>= 5.8'
