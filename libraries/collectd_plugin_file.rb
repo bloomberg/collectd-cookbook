@@ -43,7 +43,7 @@ module CollectdCookbook
       attribute(:group, kind_of: String, default: 'collectd')
 
       # @!attribute cookbook
-      # The name of the cookbook where template file lives 
+      # The name of the cookbook where template file lives
       # @return [String]
       attribute(:cookbook, kind_of: String)
 
@@ -53,7 +53,7 @@ module CollectdCookbook
       attribute(:source, kind_of: String)
 
       # @!attribute variables
-      # A Hash of variables that are used to replace variables in the 
+      # A Hash of variables that are used to replace variables in the
       # template file
       attribute(:variables, kind_of: Hash)
 
