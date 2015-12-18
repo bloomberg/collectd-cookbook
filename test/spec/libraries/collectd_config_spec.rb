@@ -49,9 +49,9 @@ EOH
 	TrueClass true
 	FalseClass false
 	Symbol symbol
-	Array 1
-	Array 2
-	Array 3
+	Array "1"
+	Array "2"
+	Array "3"
 	<Hash "id">
 		String "string"
 	</Hash>
