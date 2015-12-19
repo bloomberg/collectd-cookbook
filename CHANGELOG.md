@@ -4,17 +4,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## 2.2
+### Features
+- PR#7 Adds custom resource for managing template plugin files.
+
 ## 2.1.2
 ### Bug Fixes
-- [#6][PR#6] Fix errors with multiple value configurations.
+- PR#6 Fix errors with multiple value configurations.
 
 ## 2.1.1
 ### Bug Fixes
-- [#5][PR#5] Use upgrade action on Solaris platform.
+- PR#5 Use upgrade action on Solaris platform.
 
 ## 2.1
-### Bug Fixes
-- [#4][PR#4] Support for Solaris 11.
+### Features
+- PR#4 Support for Solaris 11 platform.
 
 ## 2.0
 ### Major Features
@@ -23,6 +27,3 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 [0]: https://github.com/poise/poise-service
 [1]: https://github.com/poise/poise
-[PR#6]: https://github.com/johnbellone/collectd-cookbook/pull/6
-[PR#5]: https://github.com/johnbellone/collectd-cookbook/pull/5
-[PR#4]: https://github.com/johnbellone/collectd-cookbook/pull/4
