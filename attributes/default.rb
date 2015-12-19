@@ -9,12 +9,6 @@ default['collectd']['service_name'] = 'collectd'
 default['collectd']['service_user'] = 'collectd'
 default['collectd']['service_group'] = 'collectd'
 
-if node['platform'] == 'ubuntu'
-  default['collectd']['service']['package_name'] = 'collectd-core'
-else
-  default['collectd']['service']['package_name'] = 'collectd'
-end
-
 default['collectd']['service']['config_directory'] = '/etc/collectd.d'
 default['collectd']['service']['configuration']['plugin_dir'] = '/usr/lib/collectd'
 default['collectd']['service']['configuration']['types_d_b'] = '/usr/share/collectd/types.db'

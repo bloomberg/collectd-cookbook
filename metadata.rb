@@ -14,6 +14,7 @@ supports 'redhat', '>= 5.8'
 supports 'aix'
 supports 'solaris2'
 
+depends 'apt'
 depends 'poise', '~> 2.2'
 depends 'poise-service', '~> 1.0'
 depends 'yum-epel'

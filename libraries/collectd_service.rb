@@ -96,7 +96,6 @@ module CollectdCookbook
                          end
 
           package new_resource.package_name do
-            provider Chef::Provider::Package::Dpkg if platform?('ubuntu')
             provider Chef::Provider::Package::Solaris if platform?('solaris2')
             action :upgrade
             version new_resource.package_version
