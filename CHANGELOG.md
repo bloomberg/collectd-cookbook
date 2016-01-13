@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## 2.2.2
+### Bug Fixes
+- Service not restarting on package update.
+
+## 2.2.1
+### Bug Fixes
+- [PR#1] - Fix provider for installing from source on Ubuntu.
+
 ## 2.2
 ### Features
 - PR#7 Adds custom resource for managing template plugin files.
@@ -27,3 +35,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 [0]: https://github.com/poise/poise-service
 [1]: https://github.com/poise/poise
+[PR#1]: https://github.com/bloomberg/collectd-cookbook/pull/1
