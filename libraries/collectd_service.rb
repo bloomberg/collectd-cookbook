@@ -3,7 +3,7 @@
 # License: Apache 2.0
 #
 # Copyright 2010, Atari, Inc.
-# Copyright 2015, Bloomberg Finance L.P.
+# Copyright 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise_service/service_mixin'
 
