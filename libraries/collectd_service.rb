@@ -84,7 +84,6 @@ module CollectdCookbook
       include PoiseService::ServiceMixin
 
       def action_enable
-        new_resource.notifies(:restart, new_resource, :delayed)
         notifying_block do
           # TODO: (jbellone) Fix the package resource for AIX so that
           # it is able to install from a URL.
