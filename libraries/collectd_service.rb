@@ -113,11 +113,18 @@ module CollectdCookbook
             end
           end
 
+          if node['collectd']['service']['configuration']['pid_file']
+            pid_file = node['collectd']['service']['configuration']['pid_file']
+          else
+            pid_file = "#{new_resource.directory}/collectd.pid"
+          end
+
           collectd_config new_resource.config_filename do
             owner new_resource.user
             group new_resource.group
             configuration new_resource.configuration.merge(
               'base_dir' => new_resource.directory,
+              'pid_file' => pid_file,
               'include'  => "#{new_resource.config_directory}/*.conf"
             )
             notifies :restart, new_resource, :delayed
