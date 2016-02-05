@@ -143,6 +143,7 @@ module CollectdCookbook
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
+        service.options :systemd, template: 'collectd:systemd.erb'
         service.restart_on_update(true)
       end
     end
