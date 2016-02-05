@@ -113,11 +113,9 @@ module CollectdCookbook
             end
           end
 
-          if node['collectd']['service']['configuration']['pid_file']
-            pid_file = node['collectd']['service']['configuration']['pid_file']
-          else
-            pid_file = "#{new_resource.directory}/collectd.pid"
-          end
+          pid_file =  if node['collectd']['service']['configuration']['pid_file']
+                      else "#{new_resource.directory}/collectd.pid"
+                      end
 
           collectd_config new_resource.config_filename do
             owner new_resource.user
