@@ -10,7 +10,11 @@ default['collectd']['service_user'] = 'collectd'
 default['collectd']['service_group'] = 'collectd'
 
 default['collectd']['service']['config_directory'] = '/etc/collectd.d'
-default['collectd']['service']['configuration']['plugin_dir'] = '/usr/lib/collectd'
+default['collectd']['service']['configuration']['plugin_dir'] =
+  value_for_platform_family(
+    'rhel' => '/usr/lib64/collectd',
+    'debian' => '/usr/lib/collectd'
+  )
 default['collectd']['service']['configuration']['types_d_b'] = '/usr/share/collectd/types.db'
 default['collectd']['service']['configuration']['interval'] = 10
 default['collectd']['service']['configuration']['read_threads'] = 5

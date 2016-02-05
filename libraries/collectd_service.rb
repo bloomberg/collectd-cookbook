@@ -108,6 +108,13 @@ module CollectdCookbook
             notifies :restart, new_resource, :delayed
           end
 
+          # Installing package starts collectd service automatically
+          # Disable this so that collectd can be managed through poise-service
+          service new_resource.package_name do
+            action [:disable, :stop]
+            only_if { platform?('ubuntu') }
+          end
+
           [new_resource.directory, new_resource.config_directory].each do |dirname|
             directory dirname do
               recursive true
