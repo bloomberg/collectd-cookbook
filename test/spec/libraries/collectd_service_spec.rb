@@ -19,6 +19,7 @@ describe CollectdCookbook::Resource::CollectdService do
       expect(chef_run).to create_collectd_config('/etc/collectd.conf')
       .with(configuration: {
         'include' => '/etc/collectd.d/*.conf',
+        'pid_file' => '/var/lib/collectd/collectd.pid',
         'base_dir' => '/var/lib/collectd'
       })
     end
