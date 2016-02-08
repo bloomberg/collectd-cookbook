@@ -8,11 +8,9 @@ group :lint do
   gem 'foodcritic'
 end
 
-group :unit do
+group :unit, :integration do
+  gem 'berkshelf'
   gem 'chefspec'
-end
-
-group :integration do
   gem 'serverspec'
 end
 
