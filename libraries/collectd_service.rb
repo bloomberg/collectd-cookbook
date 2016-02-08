@@ -50,7 +50,7 @@ module CollectdCookbook
       # Set of key-value options to write to {#config_filename}.
       # @see {https://collectd.org/documentation/manpages/collectd.conf.5.shtml#global_options}
       # @return [Hash, Mash]
-      attribute(:configuration, option_collector: true)
+      attribute(:configuration, option_collector: true, default: lazy { default_configuration })
 
       # @!attribute package_name
       # @return [String]
@@ -71,6 +71,10 @@ module CollectdCookbook
       # @return [String]
       def default_command
         "/usr/sbin/collectd -C #{config_filename}"
+      end
+
+      def default_configuration
+        { 'pid_file' => ::File.join(directory, 'collectd.pid') }
       end
     end
   end
@@ -113,16 +117,12 @@ module CollectdCookbook
             end
           end
 
-          pid_file =  if node['collectd']['service']['configuration']['pid_file']
-                      else "#{new_resource.directory}/collectd.pid"
-                      end
-
           collectd_config new_resource.config_filename do
             owner new_resource.user
             group new_resource.group
             configuration new_resource.configuration.merge(
               'base_dir' => new_resource.directory,
-              'pid_file' => pid_file,
+              'pid_file' => new_resource.configuration['pid_file'],
               'include'  => "#{new_resource.config_directory}/*.conf"
             )
             notifies :restart, new_resource, :delayed
