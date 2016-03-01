@@ -37,3 +37,10 @@ describe file('/etc/collectd.conf') do
   it { should_not contain 'WriteQueueLimitLow' }
   it { should contain 'Include "/etc/collectd.d/*.conf"' }
 end
+
+describe file('/etc/collectd.d/network.conf') do
+  it { should be_file }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  it { should contain 'LoadPlugin "network"' }
+end

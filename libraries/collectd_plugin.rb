@@ -28,13 +28,13 @@ module CollectdCookbook
 
       # @!attribute user
       # User which the configuration for {#plugin_name} is owned by.
-      # Defaults to 'collectd.'
+      # Defaults to 'collectd'
       # @return [String]
       attribute(:user, kind_of: String, default: 'collectd')
 
       # @!attribute group
       # Group which the configuration for {#plugin_name} is owned by.
-      # Defaults to 'collectd.'
+      # Defaults to 'collectd'
       # @return [String]
       attribute(:group, kind_of: String, default: 'collectd')
 
@@ -42,6 +42,16 @@ module CollectdCookbook
       # Set of key-value options to configure the plugin.
       # @return [Hash, Mash]
       attribute(:options, option_collector: true)
+
+      # checks to see if the default attributes were changed
+      def name_check(key,other)
+        if other == 'collectd'
+          c = Chef.node.fetch('collectd',{})
+          c.fetch(key,'collectd')
+        else
+          other
+        end
+      end
 
       # @return [String]
       def config_filename
@@ -52,8 +62,8 @@ module CollectdCookbook
         notifying_block do
           directory new_resource.directory do
             recursive true
-            owner new_resource.user
-            group new_resource.group
+            owner new_resource.name_check('service_user',new_resource.user)
+            group new_resource.name_check('service_group',new_resource.group)
             mode '0755'
           end
 

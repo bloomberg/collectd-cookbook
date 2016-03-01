@@ -62,18 +62,28 @@ module CollectdCookbook
         ::File.join(directory, "#{plugin_name}_#{plugin_instance_name}.conf")
       end
 
+      # checks to see if the default attributes were changed
+      def name_check(key,other)
+        if other == 'collectd'
+          c = Chef.node.fetch('collectd',{})
+          c.fetch(key,'collectd')
+        else
+          other
+        end
+      end
+
       action(:create) do
         notifying_block do
           directory new_resource.directory do
             recursive true
-            owner new_resource.user
-            group new_resource.group
+            owner new_resource.name_check('service_user',new_resource.user)
+            group new_resource.name_check('service_group',new_resource.group)
             mode '0755'
           end
 
           template new_resource.config_filename do
-            owner new_resource.user
-            group new_resource.group
+            owner new_resource.name_check('service_user',new_resource.user)
+            group new_resource.name_check('service_group',new_resource.group)
             cookbook new_resource.cookbook
             source new_resource.source
             variables new_resource.variables
