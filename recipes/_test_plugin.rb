@@ -1,0 +1,3 @@
+collectd_plugin 'network'
+
+
