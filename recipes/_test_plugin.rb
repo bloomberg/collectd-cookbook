@@ -1,3 +1,1 @@
 collectd_plugin 'network'
-
-

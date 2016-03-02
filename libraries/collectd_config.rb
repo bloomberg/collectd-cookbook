@@ -7,7 +7,6 @@
 #
 require 'poise'
 
-
 module CollectdCookbook
   module Resource
     # A resource which manages collectd daemon configurations.
@@ -31,10 +30,10 @@ module CollectdCookbook
       attribute(:configuration, option_collector: true)
 
       # checks to see if the default attributes were changed
-      def name_check(key,other)
+      def name_check(key, other)
         if other == 'collectd'
-          c = Chef.node.fetch('collectd',{})
-          c.fetch(key,'collectd')
+          c = Chef.node.fetch('collectd', {})
+          c.fetch(key, 'collectd')
         else
           other
         end
@@ -94,8 +93,8 @@ module CollectdCookbook
 
           file new_resource.path do
             content new_resource.content
-            owner new_resource.name_check('service_user',new_resource.owner)
-            group new_resource.name_check('service_group',new_resource.group)
+            owner new_resource.name_check('service_user', new_resource.owner)
+            group new_resource.name_check('service_group', new_resource.group)
             mode new_resource.mode
           end
         end

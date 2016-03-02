@@ -44,10 +44,10 @@ module CollectdCookbook
       attribute(:options, option_collector: true)
 
       # checks to see if the default attributes were changed
-      def name_check(key,other)
+      def name_check(key, other)
         if other == 'collectd'
-          c = Chef.node.fetch('collectd',{})
-          c.fetch(key,'collectd')
+          c = Chef.node.fetch('collectd', {})
+          c.fetch(key, 'collectd')
         else
           other
         end
@@ -62,8 +62,8 @@ module CollectdCookbook
         notifying_block do
           directory new_resource.directory do
             recursive true
-            owner new_resource.name_check('service_user',new_resource.user)
-            group new_resource.name_check('service_group',new_resource.group)
+            owner new_resource.name_check('service_user', new_resource.user)
+            group new_resource.name_check('service_group', new_resource.group)
             mode '0755'
           end
 
