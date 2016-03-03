@@ -21,12 +21,12 @@ module CollectdCookbook
       # @!attribute user
       # User to run the collectd daemon as. Defaults to 'collectd.'
       # @return [String]
-      attribute(:user, kind_of: String, default: 'collectd')
+      attribute(:user, kind_of: String, default: lazy { node['collectd']['service_user'] || 'collectd' })
 
       # @!attribute group
       # Group to run the collectd daemon as. Defaults to 'collectd.'
       # @return [String]
-      attribute(:group, kind_of: String, default: 'collectd')
+      attribute(:group, kind_of: String, default: lazy { node['collectd']['service_group'] || 'collectd' })
 
       # @!attribute directory
       # The working directory for the service. Defaults to the data
