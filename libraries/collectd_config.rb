@@ -23,8 +23,8 @@ module CollectdCookbook
       provides(:collectd_config)
 
       attribute(:path, kind_of: String, name_attribute: true)
-      attribute(:owner, kind_of: String, default: lazy { node['collectd']['service_user'] || 'collectd' })
-      attribute(:group, kind_of: String, default: lazy { node['collectd']['service_group'] || 'collectd' })
+      attribute(:owner, kind_of: String, default: lazy { Chef.node.fetch('collectd', {}).fetch('service_user', 'collectd') })
+      attribute(:group, kind_of: String, default: lazy { Chef.node.fetch('collectd', {}).fetch('service_group', 'collectd') })
       attribute(:mode, kind_of: String, default: '0644')
 
       attribute(:configuration, option_collector: true)
