@@ -96,6 +96,7 @@ module CollectdCookbook
                            basename = ::File.basename(url)
                            remote_file ::File.join(Chef::Config[:file_cache_path], basename) do
                              source url
+                             backup false
                            end.path
                          end
 
