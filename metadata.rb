@@ -4,7 +4,7 @@ maintainer_email 'jbellone@bloomberg.net'
 license 'Apache 2.0'
 description 'Installs and configures the collectd monitoring daemon.'
 long_description 'Installs and configures the collectd monitoring daemon.'
-version '2.2.3'
+version '2.2.4'
 source_url 'https://github.com/bloomberg/collectd-cookbook'
 issues_url 'https://github.com/bloomberg/collectd-cookbook/issues'
 
