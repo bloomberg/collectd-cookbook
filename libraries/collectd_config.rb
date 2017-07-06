@@ -56,6 +56,8 @@ module CollectdCookbook
             value.map do |val|
               if val.is_a?(String)
                 %(#{tabs}#{key} "#{val}")
+              elsif val.kind_of?(Hash) # rubocop:disable Style/ClassCheck
+		write_elements({ key => val.dup }, indent)
               else
                 %(#{tabs}#{key} #{val})
               end
