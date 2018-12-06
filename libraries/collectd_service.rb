@@ -96,6 +96,7 @@ module CollectdCookbook
                            basename = ::File.basename(url)
                            remote_file ::File.join(Chef::Config[:file_cache_path], basename) do
                              source url
+                             backup false
                            end.path
                          end
 
@@ -106,6 +107,13 @@ module CollectdCookbook
             version new_resource.package_version
             source package_path
             notifies :restart, new_resource, :delayed
+          end
+
+          # Installing package starts collectd service automatically
+          # Disable this so that collectd can be managed through poise-service
+          service new_resource.package_name do
+            action [:disable, :stop]
+            only_if { platform?('ubuntu') }
           end
 
           [new_resource.directory, new_resource.config_directory].each do |dirname|
