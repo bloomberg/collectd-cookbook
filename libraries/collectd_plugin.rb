@@ -28,15 +28,15 @@ module CollectdCookbook
 
       # @!attribute user
       # User which the configuration for {#plugin_name} is owned by.
-      # Defaults to 'collectd.'
+      # Defaults to 'collectd'
       # @return [String]
-      attribute(:user, kind_of: String, default: 'collectd')
+      attribute(:user, kind_of: String, default: lazy { Chef.node.fetch('collectd', {}).fetch('service_user', 'collectd') })
 
       # @!attribute group
       # Group which the configuration for {#plugin_name} is owned by.
-      # Defaults to 'collectd.'
+      # Defaults to 'collectd'
       # @return [String]
-      attribute(:group, kind_of: String, default: 'collectd')
+      attribute(:group, kind_of: String, default: lazy { Chef.node.fetch('collectd', {}).fetch('service_group', 'collectd') })
 
       # @!attribute options
       # Set of key-value options to configure the plugin.

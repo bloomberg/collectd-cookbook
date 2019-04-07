@@ -29,3 +29,12 @@ suites:
   - name: default
     run_list:
       - recipe[collectd::default]
+  - name: userchange
+    run_list:
+      - recipe[collectd::default]
+      - recipe[collectd::_test_plugin]
+    attributes:
+      collectd:
+        service_user: 'root'
+        service_group: 'root'
+

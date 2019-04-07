@@ -34,13 +34,13 @@ module CollectdCookbook
       # User which the configuration for {#plugin_name} is owned by.
       # Defaults to 'collectd.'
       # @return [String]
-      attribute(:user, kind_of: String, default: 'collectd')
+      attribute(:user, kind_of: String, default: lazy { Chef.node.fetch('collectd', {}).fetch('service_user', 'collectd') })
 
       # @!attribute group
       # Group which the configuration for {#plugin_name} is owned by.
       # Defaults to 'collectd.'
       # @return [String]
-      attribute(:group, kind_of: String, default: 'collectd')
+      attribute(:group, kind_of: String, default: lazy { Chef.node.fetch('collectd', {}).fetch('service_group', 'collectd') })
 
       # @!attribute cookbook
       # The name of the cookbook where template file lives
