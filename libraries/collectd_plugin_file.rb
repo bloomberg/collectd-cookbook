@@ -64,26 +64,26 @@ module CollectdCookbook
 
       action(:create) do
         notifying_block do
-          directory new_resource.directory do
+          directory directory do
             recursive true
-            owner new_resource.user
-            group new_resource.group
+            owner user
+            group group
             mode '0755'
           end
 
-          template new_resource.config_filename do
-            owner new_resource.user
-            group new_resource.group
-            cookbook new_resource.cookbook
-            source new_resource.source
-            variables new_resource.variables
+          template config_filename do
+            owner user
+            group group
+            cookbook cookbook
+            source source
+            variables variables
           end
         end
       end
 
       action(:delete) do
         notifying_block do
-          collectd_config new_resource.config_filename do
+          collectd_config config_filename do
             action :delete
           end
         end
