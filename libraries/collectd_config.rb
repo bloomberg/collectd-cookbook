@@ -77,22 +77,22 @@ module CollectdCookbook
 
       action(:create) do
         notifying_block do
-          directory ::File.dirname(new_resource.path) do
+          directory ::File.dirname(path) do
             recursive true
           end
 
-          file new_resource.path do
-            content new_resource.content
-            owner new_resource.owner
-            group new_resource.group
-            mode new_resource.mode
+          file path do
+            content content
+            owner owner
+            group group
+            mode mode
           end
         end
       end
 
       action(:delete) do
         notifying_block do
-          file new_resource.path do
+          file path do
             action :delete
           end
         end
