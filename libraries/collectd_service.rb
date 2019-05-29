@@ -91,8 +91,8 @@ module CollectdCookbook
         notifying_block do
           # TODO: (jbellone) Fix the package resource for AIX so that
           # it is able to install from a URL.
-          package_path = if new_resource.package_source
-                           url = new_resource.package_source % { version: new_resource.package_version }
+          package_path = if package_source
+                           url = package_source % { version: package_version }
                            basename = ::File.basename(url)
                            remote_file ::File.join(Chef::Config[:file_cache_path], basename) do
                              source url
@@ -100,40 +100,38 @@ module CollectdCookbook
                            end.path
                          end
 
-          package new_resource.package_name do
+          package package_name do
             provider Chef::Provider::Package::Solaris if platform?('solaris2')
-            provider Chef::Provider::Package::Dpkg if platform?('ubuntu') && new_resource.package_source
+            provider Chef::Provider::Package::Dpkg if platform?('ubuntu') && package_source
             action :upgrade
-            version new_resource.package_version
+            version package_version
             source package_path
-            notifies :restart, new_resource, :delayed
           end
 
           # Installing package starts collectd service automatically
           # Disable this so that collectd can be managed through poise-service
-          service new_resource.package_name do
+          service package_name do
             action [:disable, :stop]
             only_if { platform?('ubuntu') }
           end
 
-          [new_resource.directory, new_resource.config_directory].each do |dirname|
+          [directory, config_directory].each do |dirname|
             directory dirname do
               recursive true
-              owner new_resource.user
-              group new_resource.group
+              owner user
+              group group
               mode '0755'
             end
           end
 
-          collectd_config new_resource.config_filename do
-            owner new_resource.user
-            group new_resource.group
-            configuration new_resource.configuration.merge(
-              'base_dir' => new_resource.directory,
-              'pid_file' => new_resource.configuration['pid_file'],
-              'include'  => "#{new_resource.config_directory}/*.conf"
+          collectd_config config_filename do
+            owner user
+            group group
+            configuration configuration.merge(
+              'base_dir' => directory,
+              'pid_file' => configuration['pid_file'],
+              'include'  => "#{config_directory}/*.conf"
             )
-            notifies :restart, new_resource, :delayed
           end
         end
         super
@@ -141,7 +139,7 @@ module CollectdCookbook
 
       def action_disable
         notifying_block do
-          collectd_config new_resource.config_filename do
+          collectd_config config_filename do
             action :delete
           end
         end
@@ -151,11 +149,11 @@ module CollectdCookbook
       # Sets the tuning options for service management with {PoiseService::ServiceMixin}.
       # @param [PoiseService::Service] service
       def service_options(service)
-        service.command(new_resource.command)
-        service.environment(new_resource.environment)
-        service.directory(new_resource.directory)
-        service.user(new_resource.user)
-        service.environment(new_resource.environment)
+        service.command(command)
+        service.environment(environment)
+        service.directory(directory)
+        service.user(user)
+        service.environment(environment)
         service.options :systemd, template: 'collectd:systemd.erb'
         service.options :upstart, template: 'collectd:upstart.erb'
         service.restart_on_update(true)
